@@ -1,3 +1,5 @@
+//é chamado pelo index.html
+
 sap.ui.define([
   "sap/ui/core/ComponentContainer"
 ], function (ComponentContainer) {
@@ -9,5 +11,5 @@ sap.ui.define([
       id: "walkthrough"
     },
     async: true
-  }).placeAt("content");
+  }).placeAt("content"); //colocou o ComponentContainer no id="content"
 });

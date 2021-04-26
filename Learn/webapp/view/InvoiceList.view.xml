@@ -1,0 +1,35 @@
+<mvc:View
+  controllerName="sap.ui.demo.walkthrough.controller.InvoiceList"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+  <List
+    headerText="{i18n>invoiceListTitle}" 
+    class="sapUiResponsiveMargin"
+    width="auto"
+    items="{invoice>/Invoices}" >
+    <items>
+    <!-- 
+      ObjectListItem cria um controle para cada filho agregado dos items,
+      title é relacionado com as propriedades de um único invoice
+
+      number e numberUnit são usados para adicionar o preço
+      parts: múltiplas propriedades de diferentes modelos num único propriedade de controle
+      showMeasure: false -> this hides the currency code in the property number
+
+      numberState: A model binding inside an expression binding 
+      has to be escaped with the $ sign
+     -->
+      <ObjectListItem 
+        title="{invoice>Quantity} x {invoice>ProductName}"
+        number="{
+          parts: [{path: 'invoice>ExtendedPrice'}, {path: 'view>/currency'}],
+          type: 'sap.ui.model.type.Currency',
+          formatOptions: {
+            showMeasure: false
+          }
+        }"
+        numberUnit="{view>/currency}"
+        numberState="{= ${invoice>ExtendedPrice} > 50 ? 'Error': 'Success'}" />
+    </items>
+  </List>
+</mvc:View>

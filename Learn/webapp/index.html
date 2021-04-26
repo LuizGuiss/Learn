@@ -3,6 +3,20 @@
 
 <head>
 
+<!-- 
+	o processo de carregar e inicializar o SAPUI5
+	é chamado de bootstrapping
+
+	SAPUI5 framework:
+	- src: initializes the SAPUI5 runtime and loads additional resources;
+	- themes: we choose sap_belize as our default theme;
+	- libs: sap.m, containing the UI controls;
+	- compatVersion;
+	- async: to run asynchronously;
+	- onInit;
+	- resourceroots: are located in the same folder as index.html
+ -->
+
   <script
 		id="sap-ui-bootstrap"
 		src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
@@ -22,6 +36,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn SAPUI5 - walkthrough</title>
 </head>
+
+<!-- 
+	The class sapUiBody adds additional theme-dependent
+	styles for displaying SAPUI5 apps.
+ -->
 
 <body class="sapUiBody" id="content">
 	<div 
