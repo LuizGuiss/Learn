@@ -3,10 +3,27 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
   <List
-    headerText="{i18n>invoiceListTitle}" 
+    id="invoiceList" 
     class="sapUiResponsiveMargin"
     width="auto"
-    items="{invoice>/Invoices}" >
+    items="{
+      path: 'invoice>/Invoices',
+      sorter: {
+        path: 'ShipperName',
+        group: true
+      }
+    }" > 
+    <!-- O items acima, agrupa os produtos pela empresa remetente -->
+     
+
+    <headerToolbar>
+      <Toolbar>
+        <Title text="{i18n>invoiceListTitle}"/>
+        <ToolbarSpacer/>
+        <SearchField width="50%" search=".onFilterInvoices" />
+      </Toolbar>
+    </headerToolbar>
+
     <items>
     <!-- 
       ObjectListItem cria um controle para cada filho agregado dos items,
@@ -29,7 +46,22 @@
           }
         }"
         numberUnit="{view>/currency}"
-        numberState="{= ${invoice>ExtendedPrice} > 50 ? 'Error': 'Success'}" />
+        numberState="{= ${invoice>ExtendedPrice} > 50 ? 'Error': 'Success'}" >
+
+        <!-- 
+          firstStatus: add um status
+          formatter: especifica o custom formatter function
+          o "." no formatter significa que a função é procurada no controller da view atual 
+         -->
+
+        <firstStatus>
+          <ObjectStatus text="{
+            path: 'invoice>Status',
+            formatter: '.formatter.statusText'
+          }" 
+          />
+        </firstStatus>
+      </ObjectListItem>
     </items>
   </List>
 </mvc:View>
