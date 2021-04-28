@@ -13,8 +13,14 @@
         group: true
       }
     }" > 
-    <!-- O items acima, agrupa os produtos pela empresa remetente -->
-     
+    <!-- 
+      O items acima, agrupa os produtos pela empresa remetente;
+      o id acima é usado para identificar o .onFilterInvoices abaixo;
+      Caso quisesse inverter a ordem, basta fazer: descending: true.
+      //Acima
+      //Abaixo
+      o toolbar da mais flexibilidade para ajustar da forma que queremos.
+     -->
 
     <headerToolbar>
       <Toolbar>
