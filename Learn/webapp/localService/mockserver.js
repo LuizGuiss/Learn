@@ -6,7 +6,7 @@ sap.ui.define([
 
   /**
    * o init cria uma instância do MockServer com o msm URL
-   * das chamadas reais. o URL tem q ser o msm do maniges.json.
+   * das chamadas reais. O URL tem q ser o msm do manifest.json.
    * Depois, colocamos um delay de 1s para simular o delay do server.
    * Depois, simulamos um serciço com o oMockServer.simulate com o 
    * caminho do .xml. Assim, ele vai ler os dados de teste do sistema

@@ -1,5 +1,15 @@
 /*global QUnit*/
 
+/**
+ * aqui está implememtado a unidade de teste do formatter custom.
+ * O formatter (queremos testar) é carregado como uma dependência.
+ * O ResourceModel vai testar se a tradução dos textos estão corretas.
+ * beforeEach: instancia o ResouceBundle;
+ * afterEach: destrói.
+ * Estas duas funções são chamadas antes e dps de cada teste for executado.
+ * 
+ */
+
 sap.ui.define([
   "sap/ui/demo/walkthrough/model/formatter",
   "sap/ui/model/resource/ResourceModel"
@@ -20,6 +30,14 @@ sap.ui.define([
 
   QUnit.test("Should return the translated texts", function (assert) {
 
+    /**
+     * para n testar o controller, a view ou o model, primeiro, removemos as dependências
+     * substituindo essas por "empty hulls (cascos vazios)" + stub()
+     * o stub() é usado parar simular qlq comportmaento que precisarmos.
+     * Os stubs de teste suportam o API de espionagem (testes) do SinonJS completo.
+     */
+
+
     // Arrange
     // this.stub() does not support chaining and always returns the right data
     // even if a wrong or empty parameter is passed.
@@ -32,9 +50,13 @@ sap.ui.define([
       getView: this.stub().returns(oViewStub)
     };
 
+
+    // o stub é vinculado no formatter statusText
     // System under test
     var fnIsolatedFormatter = formatter.statusText.bind(oControllerStub);
 
+    
+    // verifica através do fnIsolatedFormmater() com os valores esperados do BD.
     // Assert
     assert.strictEqual(fnIsolatedFormatter("A"), "New", "The long text for status A is correct");
 

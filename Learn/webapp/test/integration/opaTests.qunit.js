@@ -1,3 +1,9 @@
+/**
+ * Carrega o NavigationJourney.
+ * Poderá ver quais operações o teste está realizando no aplicativo
+ */
+
+
 /* global QUnit */
 
 QUnit.config.autostart = false;
