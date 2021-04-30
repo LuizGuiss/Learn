@@ -1,8 +1,9 @@
 sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
-  "./controller/HelloDialog"
-], function (UIComponent, JSONModel, HelloDialog) {
+  "./controller/HelloDialog",
+  "sap/ui/Device"
+], function (UIComponent, JSONModel, HelloDialog, Device) {
   "use strict";
 
   return UIComponent.extend("sap.ui.demo.walkthrough.Component", {
@@ -21,9 +22,20 @@ sap.ui.define([
       };
       var oModel = new JSONModel(oData);
       this.setModel(oModel);
+      // disable batch grouping for v2 API of the northwind service
+      this.getModel("invoice").setUseBatch(false);
+
+      // torna a maioria das propiedades da API do device disponivel
+      // como um modelo JSON
+      // set device model
+      var oDeviceModel = new JSONModel(Device);
+      oDeviceModel.setDefaultBindingMode("OneWay");
+      this.setModel(oDeviceModel, "device");
 
       //set dialog
       this._helloDialog = new HelloDialog(this.getRootControl());
+      // crerate the views based on the url/hash
+      this.getRouter().initialize();
     },
 
     exit: function () {
@@ -33,6 +45,17 @@ sap.ui.define([
 
     openHelloDialog: function () {
       this._helloDialog.open();
+    },
+
+    getContentDensityClass: function () {
+      if (!this._sContentDensityClass) {
+        if (!Device.support.touch) {
+          this._sContentDensityClass = "sapUiSizeCompact";
+        } else {
+          this._sContentDensityClass = "sapUiSizeCozy";
+        }
+      }
+      return this._sContentDensityClass;
     }
   });
 });

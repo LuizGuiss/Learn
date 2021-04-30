@@ -49,6 +49,31 @@ sap.ui.define([
       var oList = this.byId("invoiceList");
       var oBinding = oList.getBinding("items");
       oBinding.filter(aFilter);
+    },
+
+    /**
+     * getSource() acessa a instancia do controle com a qual interagiu,
+     * ele retornará o ObjectListItem. Passa infos do item clicado p a 
+     * pagina de detalhes.
+     * navTo():
+     * é passado tb um obj de config p preencher o parametro de nav
+     * invoicePath com as infos do item. Atualiza a url e navega p a 
+     * visuzalicao de detalhes. 
+     * Como n temos uma key simples, usamos o path do item, que faz 
+     * parte do binding context que é chamado pelo getBindingContext(),
+     * substr(1) remove a / do path.
+     */
+
+    onPress: function (oEvent) {
+      var oItem = oEvent.getSource();
+      var oRouter = this.getOwnerComponent().getRouter();
+      oRouter.navTo("detail", {
+        invoicePath: window.encodeURIComponent(
+        oItem.getBindingContext("invoice")
+             .getPath()
+             .substr(1)
+        )
+      });
     }
   });
 });

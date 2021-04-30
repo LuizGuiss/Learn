@@ -2,7 +2,20 @@
   controllerName="sap.ui.demo.walkthrough.controller.InvoiceList"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
-  <List
+	<Panel accessibleRole="Region">
+		<headerToolbar>
+			<Toolbar>
+				<Title text="{i18n>invoiceListTitle}"/>
+				<ToolbarSpacer/>
+				<SearchField
+					width="50%"
+					search=".onFilterInvoices"
+					ariaLabelledBy="searchFieldLabel"
+					ariaDescribedBy="searchFieldDescription"
+					placeholder="{i18n>searchFieldPlaceholder}"/>
+			</Toolbar>
+		</headerToolbar>
+  <Table
     id="invoiceList" 
     class="sapUiResponsiveMargin"
     width="auto"
@@ -30,44 +43,63 @@
       </Toolbar>
     </headerToolbar>
 
-    <items>
     <!-- 
-      ObjectListItem cria um controle para cada filho agregado dos items,
-      title é relacionado com as propriedades de um único invoice
-
-      number e numberUnit são usados para adicionar o preço
-      parts: múltiplas propriedades de diferentes modelos num único propriedade de controle
-      showMeasure: false -> this hides the currency code in the property number
-
-      numberState: A model binding inside an expression binding 
-      has to be escaped with the $ sign
+      demandPopin="true": exibir esta coluna abaixo da coluna principal
+      minScreenWidth="Small": diz que esta coluna n é importante para cels
+      no Supplier: esconde a coluna de fornecedor em celulares
      -->
-      <ObjectListItem 
-        title="{invoice>Quantity} x {invoice>ProductName}"
-        number="{
-          parts: [{path: 'invoice>ExtendedPrice'}, {path: 'view>/currency'}],
-          type: 'sap.ui.model.type.Currency',
-          formatOptions: {
-            showMeasure: false
-          }
-        }"
-        numberUnit="{view>/currency}"
-        numberState="{= ${invoice>ExtendedPrice} > 50 ? 'Error': 'Success'}" >
 
-        <!-- 
-          firstStatus: add um status
-          formatter: especifica o custom formatter function
-          o "." no formatter significa que a função é procurada no controller da view atual 
-         -->
-
-        <firstStatus>
-          <ObjectStatus text="{
-            path: 'invoice>Status',
-            formatter: '.formatter.statusText'
-          }" 
-          />
-        </firstStatus>
-      </ObjectListItem>
-    </items>
-  </List>
+    <columns>
+			<Column
+				hAlign="End"
+				minScreenWidth="Small"
+				demandPopin="true"
+				width="4em">
+				<Text text="{i18n>columnQuantity}"/>
+			</Column>
+			<Column>
+				<Text text="{i18n>columnName}"/>
+			</Column>
+			<Column
+				minScreenWidth="Small"
+				demandPopin="true">
+				<Text text="{i18n>columnStatus}"/>
+			</Column>
+			<Column
+				minScreenWidth="Tablet"
+				demandPopin="false">
+				<Text text="{i18n>columnSupplier}"/>
+			</Column>
+			<Column
+				hAlign="End">
+				<Text text="{i18n>columnPrice}"/>
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem
+				type="Navigation"
+				press=".onPress">
+				<cells>
+					<ObjectNumber number="{invoice>Quantity}" emphasized="false"/>
+					<ObjectIdentifier title="{invoice>ProductName}"/>
+					<Text text="{
+						path: 'invoice>Status',
+						formatter: '.formatter.statusText'
+					}"/>
+					<Text text="{invoice>ShipperName}"/>
+					<ObjectNumber
+						number="{
+							parts: [{path: 'invoice>ExtendedPrice'}, {path: 'view>/currency'}],
+							type: 'sap.ui.model.type.Currency',
+							formatOptions: {
+								showMeasure: false
+							}
+						}"
+						unit="{view>/currency}"
+						state="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+  </Panel>
 </mvc:View>
